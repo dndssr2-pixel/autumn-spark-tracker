@@ -19,7 +19,12 @@ const ARC_LENGTH_DAYS = 120;
 const STORAGE_KEY = "solstice-logged-days";
 
 function formatDate(date: Date) {
-  return date.toISOString().split("T")[0];
+  const [year, month, day] = [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ];
+  return `${year}-${month}-${day}`;
 }
 
 function getArcDates(year: number) {
