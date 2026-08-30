@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { Missions } from "@/components/Missions";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
