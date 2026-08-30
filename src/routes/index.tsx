@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { Missions } from "@/components/Missions";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -505,11 +507,16 @@ function Index() {
               loggedDays={loggedDays}
               onToggleToday={toggleToday}
             />
+            <Missions today={today} start={start} arcStarted={arcStarted} arcLength={ARC_LENGTH_DAYS} />
             <ArcChart today={today} start={start} loggedDays={loggedDays} />
           </>
         ) : (
-          <Countdown daysUntil={daysUntil} />
+          <>
+            <Countdown daysUntil={daysUntil} />
+            <Missions today={today} start={start} arcStarted={arcStarted} arcLength={ARC_LENGTH_DAYS} />
+          </>
         )}
+
 
         <Footer arcYear={arcYear} />
       </div>
