@@ -265,7 +265,7 @@ function WeekCard({ date, logged, isToday, onToggle }: {
   date: Date;
   logged: boolean;
   isToday: boolean;
-  onToggle?: () => void;
+  onToggle?: (() => void) | undefined;
 }) {
   const label = date.toLocaleDateString("en-US", { weekday: "short" });
   const dayNum = date.getDate();
@@ -506,7 +506,6 @@ function Index() {
               today={today}
               loggedDays={loggedDays}
               onToggleToday={toggleToday}
-              isTodayLogged={isTodayLogged}
             />
             <ArcChart today={today} start={start} loggedDays={loggedDays} />
           </>
