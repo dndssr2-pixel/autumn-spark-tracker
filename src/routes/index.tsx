@@ -307,14 +307,17 @@ function WeekCard({ date, logged, isToday, onToggle }: {
   );
 }
 
-function ThisWeek({ today, loggedDays, onToggleToday, isTodayLogged }: {
+function ThisWeek({ today, loggedDays, onToggleToday }: {
   today: Date;
   loggedDays: Set<string>;
   onToggleToday: () => void;
-  isTodayLogged: boolean;
 }) {
   const weekDays = useMemo(() => getWeekDays(today), [today]);
-  const rangeLabel = `${weekDays[0].toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${weekDays[6].toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+  const first = weekDays[0];
+  const last = weekDays[6];
+  const rangeLabel = first && last
+    ? `${first.toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${last.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
+    : "";
 
   return (
     <section className="mt-14 animate-rise [animation-delay:160ms]">
