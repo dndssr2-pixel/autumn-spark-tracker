@@ -35,12 +35,9 @@ function getArcDates(year: number) {
 }
 
 function getCurrentArcYear() {
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const { start } = getArcDates(currentYear);
-  // If we're before Sep 1, the current active arc is the previous year's.
-  if (now < start) return currentYear - 1;
-  return currentYear;
+  // The arc the user wants to track starts on September 1st of the current year.
+  // If today is before then, the dashboard shows a countdown to that start date.
+  return new Date().getFullYear();
 }
 
 function diffInDays(a: Date, b: Date) {
