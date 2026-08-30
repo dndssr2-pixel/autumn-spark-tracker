@@ -505,11 +505,16 @@ function Index() {
               loggedDays={loggedDays}
               onToggleToday={toggleToday}
             />
+            <Missions today={today} start={start} arcStarted={arcStarted} arcLength={ARC_LENGTH_DAYS} />
             <ArcChart today={today} start={start} loggedDays={loggedDays} />
           </>
         ) : (
-          <Countdown daysUntil={daysUntil} />
+          <>
+            <Countdown daysUntil={daysUntil} />
+            <Missions today={today} start={start} arcStarted={arcStarted} arcLength={ARC_LENGTH_DAYS} />
+          </>
         )}
+
 
         <Footer arcYear={arcYear} />
       </div>
