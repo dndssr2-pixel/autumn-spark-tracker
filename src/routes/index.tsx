@@ -420,6 +420,7 @@ function ArcChart({ today, start, loggedDays }: { today: Date; start: Date; logg
 }
 
 function Countdown({ daysUntil }: { daysUntil: number }) {
+  const dayLabel = daysUntil === 1 ? "day" : "days";
   return (
     <section className="mt-14 animate-rise [animation-delay:160ms]">
       <div className="rounded-3xl bg-white/55 border border-ember/15 p-10 text-center">
@@ -427,7 +428,7 @@ function Countdown({ daysUntil }: { daysUntil: number }) {
           Before the arc
         </p>
         <h2 className="text-4xl sm:text-5xl font-medium tracking-tight font-[Fraunces]">
-          Winter arc begins in <span className="italic text-ember">{daysUntil}</span> days
+          Winter arc begins in <span className="italic text-ember">{daysUntil}</span> {dayLabel}
         </h2>
         <p className="mt-4 text-warm-muted max-w-md mx-auto font-[Manrope]">
           Come back on September 1st to start logging your first day. The dashboard will unlock
