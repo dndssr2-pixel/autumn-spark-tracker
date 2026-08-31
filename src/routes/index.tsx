@@ -106,7 +106,13 @@ function useWinterArc() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(loggedDays)));
   }, [loggedDays, mounted]);
 
-  const today = useMemo(() => new Date(), []);
+  // Normalise to local midnight so day-difference maths is exact whole days
+  // (otherwise "starts tomorrow" rounds down to 0 days).
+  const today = useMemo(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }, []);
   const arcYear = useMemo(getCurrentArcYear, []);
   const { start, end } = useMemo(() => getArcDates(arcYear), [arcYear]);
 
