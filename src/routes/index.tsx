@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Missions } from "@/components/Missions";
+import { BackupRestore } from "@/components/BackupRestore";
 
 
 export const Route = createFileRoute("/")({
