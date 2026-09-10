@@ -53,7 +53,7 @@ export function BackupRestore() {
   const [status, setStatus] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
   const summary = useBackupSummary();
 
-  const exportData = () => {
+  const exportData = async () => {
     try {
       const data: Record<string, unknown> = {};
       for (const key of KEYS) {
@@ -66,7 +66,30 @@ export function BackupRestore() {
         exportedAt: new Date().toISOString(),
         data,
       };
-      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+      const contents = JSON.stringify(backup, null, 2);
+      const blob = new Blob([contents], { type: "application/json" });
+
+      // Use the native Save As dialog when the browser supports it.
+      if ("showSaveFilePicker" in window) {
+        const picker = await (window as unknown as {
+          showSaveFilePicker: (opts: unknown) => Promise<FileSystemFileHandle>;
+        }).showSaveFilePicker({
+          suggestedName: summary.fileName,
+          types: [
+            {
+              description: "Solstice backup",
+              accept: { "application/json": [".json"] },
+            },
+          ],
+        });
+        const writable = await picker.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        setStatus({ kind: "ok", text: "Backup saved where you chose." });
+        return;
+      }
+
+      // Fallback for browsers that do not support the File System Access API.
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -76,7 +99,11 @@ export function BackupRestore() {
       a.remove();
       URL.revokeObjectURL(url);
       setStatus({ kind: "ok", text: `Saved ${summary.fileName} to your downloads.` });
-    } catch {
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") {
+        setStatus({ kind: "ok", text: "Save cancelled." });
+        return;
+      }
       setStatus({ kind: "err", text: "Could not create the backup file." });
     }
   };
