@@ -523,6 +523,8 @@ function Index() {
           </>
         )}
 
+        <BackupRestore />
+
 
         <Footer arcYear={arcYear} />
       </div>
